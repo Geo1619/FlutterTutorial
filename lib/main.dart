@@ -1,8 +1,8 @@
 // ignore_for_file: deprecated_member_use, prefer_const_constructors, avoid_print
 
 import 'package:flutter/material.dart';
-import 'package:flutter_complete_guide/answer.dart';
-import './question.dart';
+import 'package:flutter_complete_guide/quiz.dart';
+import 'package:flutter_complete_guide/result.dart';
 
 void main() {
   runApp(MyApp());
@@ -35,7 +35,7 @@ class _MyAppState extends State<MyApp> {
       'answers': ['Me', 'You', 'Linus Torvalds', 'Jon Skeet']
     },
   ];
-  void answerQuestion() {
+  void _answerQuestion() {
     if (_questionIndex < _questions.length) {}
     setState(() {
       _questionIndex = _questionIndex + 1;
@@ -52,19 +52,12 @@ class _MyAppState extends State<MyApp> {
           title: const Text("My first App"),
         ),
         body: _questionIndex < _questions.length
-            ? Column(
-                children: <Widget>[
-                  Question(
-                    _questions[_questionIndex]['questionText'] as String,
-                  ),
-                  ...(_questions[_questionIndex]['answers'] as List<String>)
-                      .map((answer) => Answer(answerQuestion, answer))
-                      .toList()
-                ],
+            ? Quiz(
+                answerQuestion: _answerQuestion,
+                questionIndex: _questionIndex,
+                questions: _questions,
               )
-            : Center(
-                child: Text('You did it!', style: TextStyle(fontSize: 30)),
-              ),
+            : Result(),
       ),
     );
   }
