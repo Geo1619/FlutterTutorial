@@ -13,7 +13,7 @@ class Quiz extends StatelessWidget {
 
   final List<Map<String, Object>> questions;
   final int questionIndex;
-  final VoidCallback answerQuestion;
+  final Function answerQuestion;
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +22,10 @@ class Quiz extends StatelessWidget {
         Question(
           questions[questionIndex]['questionText'] as String,
         ),
-        ...(questions[questionIndex]['answers'] as List<String>)
-            .map((answer) => Answer(answerQuestion, answer))
+        // The ... (spread operator) makes the elements of this list into elements of the parent list oO
+        ...(questions[questionIndex]['answers'] as List<Map<String, Object>>)
+            .map((answer) => Answer(() => answerQuestion(answer['score']),
+                answer['text'] as String))
             .toList()
       ],
     );
